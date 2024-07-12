@@ -1,0 +1,35 @@
+#configure avalanche network
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+require('dotenv').config();
+
+module.exports = {
+  networks: {
+    fuji: {
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, `https://api.avax-test.network/ext/bc/C/rpc`),
+      network_id: 43113,       // Avalanche Fuji C-Chain ID
+      gas: 8000000,           // Gas limit
+      gasPrice: 25000000000   // 25 gwei
+    }
+  },
+  compilers: {
+    solc: {
+      version: "0.8.0"
+    }
+  }
+};
+
+#interaction with the contract
+const Web3 = require('web3');
+const contractABI = require('./build/contracts/DegenGamingToken.json').abi;
+const contractAddress = 'YOUR_DEPLOYED_CONTRACT_ADDRESS';
+
+const web3 = new Web3(new Web3.providers.HttpProvider('https://api.avax-test.network/ext/bc/C/rpc'));
+
+const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+async function getBalance(address) {
+  const balance = await contract.methods.balanceOf(address).call();
+  console.log(`Balance: ${balance}`);
+}
+
+getBalance('ADDRESS_TO_CHECK');
