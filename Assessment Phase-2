@@ -1,0 +1,24 @@
+#deploy the degengamingtoken
+
+const DegenGamingToken = artifacts.require("DegenGamingToken");
+
+module.exports = function (deployer) {
+  deployer.deploy(DegenGamingToken);
+};
+
+# Deploy the token with Hardhat
+async function main() {
+  const DegenGamingToken = await ethers.getContractFactory("DegenGamingToken");
+  const token = await DegenGamingToken.deploy();
+
+  await token.deployed();
+
+  console.log("DegenGamingToken deployed to:", token.address);
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
