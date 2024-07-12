@@ -1,0 +1,34 @@
+# Install Truffle
+npm install -g truffle
+
+# Install Hardhat
+npm install --save-dev hardhat
+
+# Initialize a new Truffle/Hardhat project
+mkdir DegenGamingToken
+cd DegenGamingToken
+truffle init
+# or
+npx hardhat
+
+# Install Openzeppelin
+npm install @openzeppelin/contracts
+
+# Create the degengaming token contract
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract DegenGamingToken is ERC20, Ownable {
+    constructor() ERC20("DegenGamingToken", "DGT") {}
+
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
+}
